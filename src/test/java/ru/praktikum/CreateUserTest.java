@@ -6,10 +6,9 @@ import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CreateUserTest {
     @Before
@@ -19,17 +18,18 @@ public class CreateUserTest {
 
     @Test
     @DisplayName("регистрация уникального пользователя")
-    public void registerUniqueUser() {
+    public void createUniqueUser() {
         // генерация данных пользователя
         User user = new User();
         JSONObject credentials = user.generateCredentials();
         // создание пользователя
-        user.createUser(credentials);
-        // логин пользователя
-        Response responseLoginUser = user.loginUser(credentials);
-        Boolean actualAnswer = responseLoginUser.then().extract().path("success");
-        assertTrue("В ответе true", actualAnswer);
-
+        Response responseCreateUser = user.createUser(credentials);
+        // извлечение токена
+        String accessToken = responseCreateUser.then().extract().path("accessToken");
+        // проверка токена
+        assertThat(accessToken, startsWith("Bearer"));
+        // печать токена
+        System.out.println(accessToken);
     }
 
     @Test
