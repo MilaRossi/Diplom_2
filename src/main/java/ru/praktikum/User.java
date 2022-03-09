@@ -22,7 +22,7 @@ public class User {
         return json;
     }
 
-    // создание кредов mail/password
+    @Step("создание кредов mail/password")
     public JSONObject generateCredentialsWithoutName() {
         Faker faker = new Faker();
         String userEmail = faker.internet().emailAddress();
@@ -34,7 +34,7 @@ public class User {
         return json;
     }
 
-    // создание кредов mail/password
+    @Step("создание кредов mail/password")
     public JSONObject generateCredentialsWithoutPassword() {
         Faker faker = new Faker();
         String userEmail = faker.internet().emailAddress();
@@ -44,7 +44,22 @@ public class User {
         return json;
     }
 
+    @Step("обновление имени")
+    public JSONObject changeTheName() {
+        String userName = RandomStringUtils.randomAlphabetic(10);
+        JSONObject json = new JSONObject();
+        json.put("name",userName );
+        return json;
+    }
 
+    @Step("обновление email")
+    public JSONObject changeTheEmail() {
+        Faker faker = new Faker();
+        String userEmail = faker.internet().emailAddress();
+        JSONObject json = new JSONObject();
+        json.put("email", userEmail);
+        return json;
+    }
 
     @Step("создание пользователя")
     public Response createUser(JSONObject credentials ) {
@@ -58,8 +73,5 @@ public class User {
         return given().header("Content-type", "application/json")
                 .body(credentials.toString()).when().post("/api/auth/login");
     }
-
-
-
 
 }
