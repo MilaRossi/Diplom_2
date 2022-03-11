@@ -30,5 +30,21 @@ public class Order {
         return json;
     }
 
+    @Step("составить пустой бургер")
+    public JSONObject emptyBurger() {
+        String[] noIngredients = {};
+        JSONObject json = new JSONObject();
+        json.put("ingredients", noIngredients);
+        return json;
+    }
+
+    @Step("составить бургер с неверным хешем ингредиентов")
+    public JSONObject incorrectBurger() {
+        String[] incorrectIngredients = {"firstIncorrectIngredient", "secondIncorrectIngredient"};
+        JSONObject json = new JSONObject();
+        json.put("ingredients", incorrectIngredients);
+        return json;
+    }
+
 
 }
