@@ -74,4 +74,5 @@ public class User {
                 .body(credentials.toString()).when().post("/api/auth/login");
     }
 
+
 }
